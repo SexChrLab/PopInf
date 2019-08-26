@@ -6,7 +6,7 @@ configfile: "prep_ref.config.json"
 
 rule all:
 	input:
-		expand("1000genomes/chr{chrm}_10000genomes_selected_individuals.vcf", chrm=config["chromosome"])
+		expand("1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf", chrm=config["chromosome"])
 
 
 rule subset_1000genomes:
@@ -21,9 +21,9 @@ rule subset_1000genomes:
 
 rule zip:
 	input:
-		"1000genomes/chr{chrm}_10000genomes_selected_individuals.vcf"
+		"1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf"
 	output:
-		"1000genomes/chr{chrm}_10000genomes_selected_individuals.vcf.gz"
+		"1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf.gz"
 	shell: """
 		bgzip {input};
 		tabix -p vcf {output}

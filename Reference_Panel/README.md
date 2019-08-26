@@ -50,7 +50,7 @@ To deactivate `PopInf` environment: \
 We will use a subset of the 1000 Genomes Release 3 whole genome sequence data (vcf files). We chose individuals that represent populations in Africa, Asia, and Europe.
 
 To download vcfs (they will be separated by chromosome): \
-`wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ `
+`wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr* `
 
 NOTE: These files are very large and will take quite a bit of time to download. I would suggest submitting this command as a job. 
 
