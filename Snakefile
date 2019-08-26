@@ -36,26 +36,26 @@ if config["Autosomes_Yes_or_No"]=="Y":
 			ref = config["ref_path"],
 			vcf_by_chr = (config["vcf_ref_panel_path"] + config["vcf_ref_panel_prefix"] + "{chrm}" + config["vcf_ref_panel_suffix"])
 		output:
-			"autosomes/ref_set/chr{chrm}_reference_panel_set_SNPs.recode.vcf"
+			temp("autosomes/ref_set/chr{chrm}_reference_panel_set_SNPs.recode.vcf")
 		shell:
 			"gatk -T SelectVariants -R {input.ref} -V {input.vcf_by_chr} -selectType SNP -o {output}"
 
-	rule snps_unkn_set:
+	'''rule snps_unkn_set:
 		input:
 			vcf_by_chr = (config["vcf_unknown_set_path"] + config["vcf_unknown_set_prefix"] + "{chrm}" + config["vcf_unknown_set_suffix"])
 		output:
 			"autosomes/unk_set/chr{chrm}_unkown_set_SNPs.recode.vcf"
 		shell:
-			"vcftools --vcf {input.vcf_by_chr} --remove-indels --recode --recode-INFO-all -c > {output}"
+			"vcftools --vcf {input.vcf_by_chr} --remove-indels --recode --recode-INFO-all -c > {output}"'''
 
-	'''rule snps_unkn_set:
+	rule snps_unkn_set:
 		input:
 			ref = config["ref_path"],
 			vcf_by_chr = (config["vcf_unknown_set_path"] + config["vcf_unknown_set_prefix"] + "{chrm}" + config["vcf_unknown_set_suffix"])
 		output:
-			"autosomes/unk_set/chr{chrm}_unkown_set_SNPs.recode.vcf"
+			temp("autosomes/unk_set/chr{chrm}_unkown_set_SNPs.recode.vcf")
 		shell:
-			"gatk -T SelectVariants -R {input.ref} -V {input.vcf_by_chr} -selectType SNP -o {output}"'''
+			"gatk -T SelectVariants -R {input.ref} -V {input.vcf_by_chr} -selectType SNP -o {output}"
 
 	# Merge SNP data from both sets
 	rule merge_snps:
@@ -64,7 +64,7 @@ if config["Autosomes_Yes_or_No"]=="Y":
 			vcf_unk_set = "autosomes/unk_set/chr{chrm}_unkown_set_SNPs.recode.vcf",
 			vcf_ref_set = "autosomes/ref_set/chr{chrm}_reference_panel_set_SNPs.recode.vcf"
 		output:
-			"autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge.vcf"
+			temp("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge.vcf")
 		shell:
 			"gatk -T CombineVariants -R {input.ref} --variant {input.vcf_ref_set} --variant {input.vcf_unk_set} -o {output} -genotypeMergeOptions UNIQUIFY"
 
@@ -73,7 +73,7 @@ if config["Autosomes_Yes_or_No"]=="Y":
 		input:
 			"autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge.vcf"
 		output:
-			"autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing.recode.vcf"
+			temp("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing.recode.vcf")
 		params:
 			max_miss = config["genotype_call_rate_threshold"]
 		shell:
@@ -85,8 +85,8 @@ if config["Autosomes_Yes_or_No"]=="Y":
 		input:
 			"autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing.recode.vcf"
 		output:
-			merged_nomiss_plink_map = "autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.map",
-			merged_nomiss_plink_ped = "autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.ped"
+			merged_nomiss_plink_map = temp("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.map"),
+			merged_nomiss_plink_ped = temp("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.ped")
 		params:
 			chr_num = "{chrm}"
 		shell:
@@ -98,8 +98,8 @@ if config["Autosomes_Yes_or_No"]=="Y":
 	    	 plink_map_file = "autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.map",
 	    	 plink_ped_file = "autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.ped"
 		output:
-	    	 in_prune = "autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.in",
-	    	 out_prune = "autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.out"
+	    	 in_prune = temp("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.in"),
+	    	 out_prune = temp("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.out")
 		params:
 			 chr_num = "{chrm}"
 		shell:
@@ -165,7 +165,7 @@ if config["Autosomes_Yes_or_No"]=="Y":
 			chr_num = "{chrm}"
 		shell: """awk '{{if($1 == "\\t" ) {{print $2,"\\t",$3,"\\t",$4,"\\t",$5,"\\t",$6,"\\t",$7,"\\t",$8,"\\t",$9,"\\t",$10,"\\t",$11,"\\t",$12,"\\t",$13,"\\t"}} else {{print $1,"\\t",$2,"\\t",$3,"\\t",$4,"\\t",$5,"\\t",$6,"\\t",$7,"\\t",$8,"\\t",$9,"\\t",$10,"\\t",$11,"\\t",$12,"\\t"}}}}' {input.evec_file} > {output.evec_fix}"""
 
-	
+
 	rule edit_evec_2:
 		input:
 			evec_fix_1 = "autosomes/pca/out/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune_Fix.evec"
@@ -217,8 +217,8 @@ else:
 			ref_panel = (config["vcf_ref_panel_path_X"] + config["vcf_ref_panel_file"]),
 			unk_panel = (config["vcf_unknown_set_path_X"] + config["vcf_unknown_set_file"])
 		output:
-			ref_panel_SNPs = "chrX/ref_set/chrX_reference_panel_set_SNPs.recode.vcf",
-			unk_panel_SNPs = "chrX/unk_set/chrX_unknown_panel_set_SNPs.recode.vcf"
+			ref_panel_SNPs = temp("chrX/ref_set/chrX_reference_panel_set_SNPs.recode.vcf"),
+			unk_panel_SNPs = temp("chrX/unk_set/chrX_unknown_panel_set_SNPs.recode.vcf")
 		shell: """
 			gatk -T SelectVariants -R {input.ref} -V {input.ref_panel} -selectType SNP -o {output.ref_panel_SNPs};
 			vcftools --vcf {input.unk_panel} --remove-indels --recode --recode-INFO-all -c > {output.unk_panel_SNPs}
@@ -231,7 +231,7 @@ else:
 			ref_panel = "chrX/ref_set/chrX_reference_panel_set_SNPs.recode.vcf",
 			unk_panel = "chrX/unk_set/chrX_unknown_panel_set_SNPs.recode.vcf"
 		output:
-			merge_ref_unk = "chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge.vcf"
+			merge_ref_unk = temp("chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge.vcf")
 		shell:
 			"gatk -T CombineVariants -R {input.ref} --variant {input.ref_panel} --variant {input.unk_panel} -o {output.merge_ref_unk} -genotypeMergeOptions UNIQUIFY"
 
@@ -241,7 +241,7 @@ else:
 			merge_ref_unk = "chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge.vcf",
 			coordinates = config["X_chr_coordinates"]
 		output:
-			"chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR.vcf"
+			temp("chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR.vcf")
 		shell:
 			"bedtools subtract -header -a {input.merge_ref_unk} -b {input.coordinates} > {output}"
 
@@ -250,7 +250,7 @@ else:
 		input:
 			"chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR.vcf"
 		output:
-			"chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing.vcf"
+			temp("chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing.vcf")
 		params:
 			max_miss = config["genotype_call_rate_threshold"]
 		shell:
@@ -261,8 +261,8 @@ else:
 		input:
 			"chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing.vcf"
 		output:
-			ref_unk_plink_map = "chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing_plink.map",
-			ref_unk_plink_ped = "chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing_plink.ped"
+			ref_unk_plink_map = temp("chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing_plink.map"),
+			ref_unk_plink_ped = temp("chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing_plink.ped")
 		shell:
 			"vcftools --vcf {input} --plink --out chrX/merge/chrX_reference_panel_unknown_set_SNPs_merge_noPARS_noXTR_noMissing_plink"
 
@@ -309,7 +309,7 @@ else:
 		shell:"""
 		smartpca -p {input.par}
 		"""
-	
+
 	# Edit the evec files
 	rule edit_evec_1:
 		input:
@@ -335,4 +335,4 @@ else:
 		output:
 			plot = "chrX/chrX_inferred_pop_plot.pdf",
 			report = "chrX/chrX_inferred_pop_report.txt"
-		shell:"""Rscript pca_inferred_ancestry_report.R {input.evec} {input.eval_file} {input.ref_panel} {input.unk} chrX/chrX_inferred_pop_plot chrX/chrX_inferred_pop_report"""	
+		shell:"""Rscript pca_inferred_ancestry_report.R {input.evec} {input.eval_file} {input.ref_panel} {input.unk} chrX/chrX_inferred_pop_plot chrX/chrX_inferred_pop_report"""
