@@ -1,34 +1,34 @@
 # PopInf
 PopInf is a method to infer the major population (or populations) ancestry of a sample or set of samples.
 
-# Running PopInf 
+# Running PopInf
 Below are steps for running PopInf. PopInf is incorporated into the workflow system snakemake. All necessary files and scripts are in this directory. There are instructions on preparing the reference panel in a folder called "`Reference_Panel`". There are also instructions on preparing the unknown samples in a folder called "`Unknown_Samples`".
 
 ## What you need to run PopInf
  1. Variants for a reference panel in VCF file format separated by chromosome.
  2. Variants for sample(s) of individuals with unknown or self-reported ancestry in VCF file format separated by chromosome.
- 3. Sample information file for the reference panel. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual. Our example for this file is provided in this folder and is called `ThousandGenomesSamples_AdmxRm_SHORT.txt`.
- 4. Sample information file for the unknown samples. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual (this column can be labeled "unknown" for this file). Our example for this file is provided in this folder and is called `gtex_samples_SHORT.txt`.
- 5. Reference Genome file (.fa) used for mapping variants. Make sure there are accompanying index (.fai) and dictionary (.dict) files.
+ 3. Sample information file for the reference panel. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual. Our example for this file is provided in this folder and is called `Sample_Information/ThousandGenomesSamples_AdmxRm.txt`.
+ 4. Sample information file for the unknown samples. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual (this column can be labeled "unknown" for this file). Our example for this file is provided in this folder and is called `Sample_Information/ThousandGenomesSamples_Admx_samples.txt`.
+ 5. Reference Genome file (.fa) used for mapping variants. Make sure there are accompanying index (.fai) and dictionary (.dict) files. See folder `Reference_Genome` for more information.
 
-## Step 1: Set up your environment 
-PopInf uses a variety of programs. We will set up a conda environment to manage all necessary packages and programs. 
+## Step 1: Set up your environment
+PopInf uses a variety of programs. We will set up a conda environment to manage all necessary packages and programs.
 
 ### Install Anaconda or Miniconda
 First, you will have to install Anaconda or Miniconda. Please refer to Conda's documentation for steps on how to install conda. See: https://conda.io/docs/index.html
 
 ### Create the environment
-You can name your environment whatever you would like. We named this environment 'PopInf' and we will use this environment for all analyses. 
+You can name your environment whatever you would like. We named this environment 'PopInf' and we will use this environment for all analyses.
 
 Create conda environment called `PopInf`: \
-`conda env create --name PopInf --file popInf_environment.yaml`
+`conda env create --name PopInf --file PopInfConda.txt`
 
-The `popInf_environment.yaml` environment file is located in this folder.
+The `PopInfConda.txt` is located in this folder and contains the programs needed to run PopInf.
 
-You will need to activate the environment when running scripts or commands and deactivate the environment when you are done. 
+You will need to activate the environment when running scripts or commands and deactivate the environment when you are done.
 
 To activate the `PopInf` environment: \
-`source activate PopInf` 
+`source activate PopInf`
 
 To deactivate the `PopInf` environment: \
 `source deactivate PopInf`
@@ -37,21 +37,19 @@ To deactivate the `PopInf` environment: \
 To use GATK in the conda environment, you must register it. After activating the environment, type the following into the command line: \
 `gatk-register <path and name of gatk jar file>`
 
-Please note that "`<path and name of gatk jar file>`" is just the path and file name for the gatk.jar file.
+Please note that "`<path and name of gatk jar file>`" is the path and file name for the gatk.jar file. The jar file must be downloaded independently. See: https://bioconda.github.io/recipes/gatk/README.html
 
-Additional packages within R must be installed into this environment as well. After activating the environment, type the following into the command line: 
-```
-conda install -c bioconda r-plotrix
-conda install -c r r-car
-conda install -c bioconda r-viridis 
-```
 
-## Step 2: Prepare the reference panel
+## Step 2: Prepare the reference panel VCFs and sample information file
 See the readme file in the folder called "`Reference_Panel`".
 
+Please make sure the reference panel VCF is separated by chromosome and gzipped. The sample information text file we use is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_AdmxRm.txt`
 
-## Step 3: Prepare the unknown samples
+
+## Step 3: Prepare the unknown samples VCFs and sample information file
 See the readme file in the folder called "`Unknown_Samples`".
+
+Please make sure the unknown samples VCF is separated by chromosome and gzipped. The sample information text file we use is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_Admx_samples.txt`
 
 
 ## Step 4: Edit the configuration file
@@ -62,31 +60,31 @@ The config file is named `popInf.config.json` and is located in this folder. See
 ```
 {
   "_comment_sample_info": "This section of the .json file asks for sample information",
-  "ref_panel_pop_info_path": "/PopInf/Sample_Information/ThousandGenomesSamples_AdmxRm.txt",
-  "unkn_panel_pop_info_path": "/PopInf/Sample_Information/GTExSamples.txt",
-  
+  "ref_panel_pop_info_path": "Sample_Information/ThousandGenomesSamples_AdmxRm.txt",
+  "unkn_panel_pop_info_path": "Sample_Information/ThousandGenomesSamples_Admx_samples.txt",
+
   "_comment_general_options": "This section of the .json file asks for information needed to run popInf regardelss of what chromosomes you choose to analyze",
-  "Autosomes_Yes_or_No": "N",
-  "ref_path": "/mnt/storage/SAYRES/REFERENCE_GENOMES/hs37d5/hs37d5.fa",
+  "Autosomes_Yes_or_No": "Y",
+  "ref_path": "Reference_Genome/hs37d5.fa",
   "genotype_call_rate_threshold": "0.98",
-  
+
   "_comment_autosomes": "This section of the .json file asks for information needed for the autosomes if they are to be analyzed",
-  "vcf_ref_panel_path": "/PopInf/Reference_Panel/",
+  "vcf_ref_panel_path": "Reference_Panel/",
   "vcf_ref_panel_prefix": "chr",
-  "vcf_ref_panel_suffix": "_10000genomes_selected_individuals.vcf",
-  "vcf_unknown_set_path": "/PopInf/Unknown_Samples/",
+  "vcf_ref_panel_suffix": "_10000genomes_selected_individuals_SNPs_nomissing.dupsRemoved.thinned.vcf.gz",
+  "vcf_unknown_set_path": "Unknown_Samples/",
   "vcf_unknown_set_prefix": "chr",
-  "vcf_unknown_set_suffix": "_unknown_panel.recode.vcf",
-  "chromosome": ["1", "2", "3", "4", "5", "6", "7", 
-                 "8", "9", "10", "11", "12", "13", "14", 
+  "vcf_unknown_set_suffix": "_10000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
+  "chromosome": ["1", "2", "3", "4", "5", "6", "7",
+                 "8", "9", "10", "11", "12", "13", "14",
                  "15", "16", "17", "18", "19", "20", "21", "22"],
-  
+
   "_comment_chrX": "This section of the .json file asks for information needed for the analysis of the X chromosome",
-  "vcf_ref_panel_path_X": "/PopInf/Reference_Panel/",
-  "vcf_ref_panel_file": "chrX_10000genomes_selected_individuals.vcf",
-  "vcf_unknown_set_path_X": "/PopInf/Unknown_Samples/",
-  "vcf_unknown_set_file": "chrX_unknown_panel.recode.vcf",
-  "X_chr_coordinates": "/PopInf/X_chromosome_regions_XTR_hg19.bed"
+  "vcf_ref_panel_path_X": "Reference_Panel/",
+  "vcf_ref_panel_file": "chrX_1000genomes_selected_individuals.dupsRemoved.thinned.vcf.gz",
+  "vcf_unknown_set_path_X": "/scratch/amtarave/test_set_POPINF/1000genomes/",
+  "vcf_unknown_set_file": "chrX_10000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
+  "X_chr_coordinates": "X_chromosome_regions_XTR_hg19.bed"
 }
 ```
 After editing `popInf.config.json` make sure that this file has maintained proper json format. You can use The JSON Validator for example (https://jsonlint.com/).
@@ -99,24 +97,24 @@ Below, there are details on what to add or change in the configuration file.
 `"unkn_panel_pop_info_path": ` Add the full path and file name of the sample information text file for the unknown samples.
 
 ### Specify the type of chromosome to be analyzed
-`"Autosomes_Yes_or_No": ` Specify whether analyzing the autosomes or X chromosome. If analyzing the autosomes, type `"Y"`. If analyzing the X chromosome, type `"N"`. 
+`"Autosomes_Yes_or_No": ` Specify whether analyzing the autosomes or X chromosome. If analyzing the autosomes, type `"Y"`. If analyzing the X chromosome, type `"N"`.
 
 ### Provide information about the reference file used for mapping variants
 `"ref_path": ` Add the full path to and name of the reference genome file.
 
 ### Specify the call rate threshold
-`"genotype_call_rate_threshold": ` Removes sites with a user specified call rate. For example, if you want to remove sites with any missing data (call rate of 100%) set `"genotype_call_rate_threshold": ` to `"1.0"`. If you don't want to implements a call rate threshold, set `"genotype_call_rate_threshold": ` to `"0"`. 
+`"genotype_call_rate_threshold": ` Removes sites with a user specified call rate. For example, if you want to remove sites with any missing data (call rate of 100%) set `"genotype_call_rate_threshold": ` to `"1.0"`. If you don't want to implements a call rate threshold, set `"genotype_call_rate_threshold": ` to `"0"`.
 
 ### Additional information to provide if analyzing the autosomes
 `"vcf_ref_panel_path": ` Add the full path to the reference panel VCF files that are separated by chromosome. Make sure the path has "/" at the end.
 
-`"vcf_ref_panel_prefix": ` Add the part of the name of the reference VCF files that comes before the chr number. For example, if the reference VCF file for chromosome 1 is named `chr1_reference_panel.vcf.gz` then you would add `"chr"` to this part of the config file. 
+`"vcf_ref_panel_prefix": ` Add the part of the name of the reference VCF files that comes before the chr number. For example, if the reference VCF file for chromosome 1 is named `chr1_reference_panel.vcf.gz` then you would add `"chr"` to this part of the config file.
 
 `"vcf_ref_panel_suffix": ` Add the part of the name of the reference VCF files that comes after the chromosome number. For example, if the reference VCF file for chromosome 1 is named `chr1_reference_panel.vcf.gz` then you would add `"_reference_panel.vcf.gz"` to this the config file.
 
 `"vcf_unknown_set_path": ` Add the full path to the unzipped unknown sample(s) VCF files that are separated by chromosome. Make sure the path has "/" at the end.
 
-`"vcf_unknown_set_prefix": ` Add the part of the name of the unknown VCF files that comes before the chromosome number. For example, if the unknown VCF file for chromosome 1 is named `chr1_unknown_panel.vcf` then you would add `"chr"` to this part of the config file. 
+`"vcf_unknown_set_prefix": ` Add the part of the name of the unknown VCF files that comes before the chromosome number. For example, if the unknown VCF file for chromosome 1 is named `chr1_unknown_panel.vcf` then you would add `"chr"` to this part of the config file.
 
 `"vcf_unknown_set_suffix": ` Add the part of the name of the unknown VCF files that comes after the chr number. For example, if the unknown VCF file for chromosome 1 is named `chr1_unknown_panel.vcf` then you would add `"_unknown_panel.vcf.gz"` to the config file.
 
@@ -129,7 +127,7 @@ Below, there are details on what to add or change in the configuration file.
 
 `"vcf_unknown_set_path_X": ` Add the full path to the unzipped unknown sample(s) VCF file for the X chromosome. Make sure the path has "/" at the.
 
-`"vcf_unknown_set_file": ` Add the full name of the unzipped unknown sample(s) VCF file for the X chromosome. 
+`"vcf_unknown_set_file": ` Add the full name of the unzipped unknown sample(s) VCF file for the X chromosome.
 
 `"X_chr_coordinates": ` Add the full path to and name of the file containing the X chromosome PAR and XTR coordinates. The coordinates are provided in the file named `X_chromosome_regions_XTR_hg19.bed` and this file is located in this folder.
 
@@ -143,7 +141,7 @@ Before running the sbatch script, some necessary edits are needed. These edits a
 `SPATH=/full/path/to/PopInf/directory/`
 
 #### 2. Name of the environment you created (Line 27)
-`ENV=popInf`
+`ENV=PopInf`
 
 #### 3. Email you want the notifications to be sent to. If running on a cluster. This is the email address you wish to send slurm logs to (Line 30)
 `EMAIL=youremail@email.com`

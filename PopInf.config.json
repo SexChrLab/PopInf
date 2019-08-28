@@ -1,0 +1,28 @@
+{
+  "_comment_sample_info": "This section of the .json file asks for sample information",
+  "ref_panel_pop_info_path": "Sample_Information/ThousandGenomesSamples_AdmxRm.txt",
+  "unkn_panel_pop_info_path": "Sample_Information/ThousandGenomesSamples_Admx_samples.txt",
+
+  "_comment_general_options": "This section of the .json file asks for information needed to run popInf regardelss of what chromosomes you choose to analyze",
+  "Autosomes_Yes_or_No": "Y",
+  "ref_path": "Reference_Genome/hs37d5.fa",
+  "genotype_call_rate_threshold": "0.98",
+
+  "_comment_autosomes": "This section of the .json file asks for information needed for the autosomes if they are to be analyzed",
+  "vcf_ref_panel_path": "Reference_Panel/",
+  "vcf_ref_panel_prefix": "chr",
+  "vcf_ref_panel_suffix": "_10000genomes_selected_individuals_SNPs_nomissing.dupsRemoved.thinned.vcf.gz",
+  "vcf_unknown_set_path": "Unknown_Samples/",
+  "vcf_unknown_set_prefix": "chr",
+  "vcf_unknown_set_suffix": "_10000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
+  "chromosome": ["1", "2", "3", "4", "5", "6", "7",
+                 "8", "9", "10", "11", "12", "13", "14",
+                 "15", "16", "17", "18", "19", "20", "21", "22"],
+
+  "_comment_chrX": "This section of the .json file asks for information needed for the analysis of the X chromosome",
+  "vcf_ref_panel_path_X": "Reference_Panel/",
+  "vcf_ref_panel_file": "chrX_1000genomes_selected_individuals.dupsRemoved.thinned.vcf.gz",
+  "vcf_unknown_set_path_X": "/scratch/amtarave/test_set_POPINF/1000genomes/",
+  "vcf_unknown_set_file": "chrX_10000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
+  "X_chr_coordinates": "X_chromosome_regions_XTR_hg19.bed"
+}

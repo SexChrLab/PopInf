@@ -2,8 +2,8 @@
 # The first block will be for the autosomes that have been separated by chromosome and the second block will be for the
 # X chromosome.
 
-# The user must first provide the directories and file names for the reference and unknown panels in the popInf.config.json
-configfile: "popInf.config.json"
+# The user must first provide the directories and file names for the reference and unknown panels in the PopInf.config.json
+configfile: "PopInf.config.json"
 
 # PART 1: AUTOSOMES
 if config["Autosomes_Yes_or_No"]=="Y":
