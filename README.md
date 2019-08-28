@@ -4,7 +4,7 @@ PopInf is a method to infer the major population (or populations) ancestry of a 
 # Running PopInf
 Below are steps for running PopInf. PopInf is incorporated into the workflow system snakemake. All necessary files and scripts are in this directory. There are instructions on preparing the reference panel in a folder called "`Reference_Panel`". There are also instructions on preparing the unknown samples in a folder called "`Unknown_Samples`".
 
-We have provided sample data sets to run PopInf. They are subsetted data from 1000 genomes phase 3. The reference panel VCFs can be found in the folder called `Reference_Panel/` and the unknown (in this example, they are just admixed individuals) samples can be found in the folder called `Unknown_Samples`.
+We have provided sample data sets to run PopInf. They are subsetted data from 1000 genomes phase 3. The reference panel VCFs can be found in the folder called `Reference_Panel/` and the unknown (in this example, they are just admixed individuals) samples can be found in the folder called `Unknown_Samples/`.
 
 ## What you need to run PopInf
  1. Variants for a reference panel in VCF file format separated by chromosome. See `Reference_Panel/`
@@ -188,11 +188,13 @@ ENV=PopInf
 ```
 
 #### 3. Email you want the notifications to be sent to. If running on a cluster. This is the email address you wish to send slurm logs to (Line 30)
-```EMAIL=youremail@email.com
+```
+EMAIL=youremail@email.com
 ```
 
 #### 4. The path to and file name of the reference panel samples list (Line 32)
-```POPFILEREF=/full/path/to/reference_panel/Sample_Information/file.txt
+```
+POPFILEREF=/full/path/to/reference_panel/Sample_Information/file.txt
 ```
 
 #### 5. The path to and file name of the unknown panel samples list (Line 34)
