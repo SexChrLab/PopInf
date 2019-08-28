@@ -6,25 +6,25 @@ configfile: "prep_ref.config.json"
 
 rule all:
 	input:
-		expand("1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf", chrm=config["chromosome"])
+		expand("chr{chrm}_reference_panel.vcf.gz", chrm=config["chromosome"]),
+		expand("chr{chrm}_reference_panel.vcf.gz.tbi", chrm=config["chromosome"])
 
 
 rule subset_1000genomes:
     input:
-        gzvcf = os.path.join(config["vcf_1000g_path"], "ALL.chr{chrm}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz"),
+        gzvcf = (config["vcf_1000g_path"] + config["input_vcf_prefix"] + "{chrm}" + config["input_vcf_suffix"]),
         inds = config["pop_list_1000g"]
     output:
-        temp("1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf")
-    shell:
-        "vcftools --gzvcf {input.gzvcf} --keep {input.inds} --recode -c > {output}"
+        "chr{chrm}_reference_panel.vcf.gz"
+    shell:"""
+        vcftools --gzvcf {input.gzvcf} --keep {input.inds} --stdout | gzip -c > {output}
 
-
-rule zip:
-	input:
-		"1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf"
-	output:
-		"1000genomes/chr{chrm}_10000genomes_selected_individuals.recode.vcf.gz"
-	shell: """
-		bgzip {input};
-		tabix -p vcf {output}
 	"""
+
+rule tabix:
+	input:
+		"chr{chrm}_reference_panel.vcf.gz"
+	output:
+		"chr{chrm}_reference_panel.vcf.gz.tbi"
+	shell:
+		"tabix -p vcf {input}"
