@@ -4,12 +4,14 @@ PopInf is a method to infer the major population (or populations) ancestry of a 
 # Running PopInf
 Below are steps for running PopInf. PopInf is incorporated into the workflow system snakemake. All necessary files and scripts are in this directory. There are instructions on preparing the reference panel in a folder called "`Reference_Panel`". There are also instructions on preparing the unknown samples in a folder called "`Unknown_Samples`".
 
+We have provided sample data sets to run PopInf. They are subsetted data from 1000 genomes phase 3. The reference panel VCFs can be found in the folder called `Reference_Panel/` and the unknown (in this example, they are just admixed individuals) samples can be found in the folder called `Unknown_Samples`.
+
 ## What you need to run PopInf
- 1. Variants for a reference panel in VCF file format separated by chromosome.
- 2. Variants for sample(s) of individuals with unknown or self-reported ancestry in VCF file format separated by chromosome.
- 3. Sample information file for the reference panel. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual. Our example for this file is provided in this folder and is called `Sample_Information/ThousandGenomesSamples_AdmxRm.txt`.
- 4. Sample information file for the unknown samples. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual (this column can be labeled "unknown" for this file). Our example for this file is provided in this folder and is called `Sample_Information/ThousandGenomesSamples_Admx_samples.txt`.
- 5. Reference Genome file (.fa) used for mapping variants. Make sure there are accompanying index (.fai) and dictionary (.dict) files. See folder `Reference_Genome` for more information.
+ 1. Variants for a reference panel in VCF file format separated by chromosome. See `Reference_Panel/`
+ 2. Variants for sample(s) of individuals with unknown or self-reported ancestry in VCF file format separated by chromosome. See `Unknown_Samples/`
+ 3. Sample information file for the reference panel. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual. Our example for this file is provided in here: `Sample_Information/ThousandGenomesSamples_AdmxRm.txt`.
+ 4. Sample information file for the unknown samples. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual (this column can be labeled "unknown" for this file). Our example for this file is provided here: `Sample_Information/ThousandGenomesSamples_Admx_samples.txt`.
+ 5. Reference Genome file (.fa) used for mapping variants. Make sure there are accompanying index (.fai) and dictionary (.dict) files. See folder `Reference_Genome/` for more information.
 
 ## Step 1: Set up your environment
 PopInf uses a variety of programs. We will set up a conda environment to manage all necessary packages and programs.
@@ -25,6 +27,11 @@ Create conda environment called `PopInf`: \
 
 The `PopInfConda.txt` is located in this folder and contains the programs needed to run PopInf.
 
+If the above does not work (i.e. differences in platforms), try the following: \
+`conda env create --name PopInf --file PopInf.yml`
+
+`PopInf.yml` is also located in this folder
+
 You will need to activate the environment when running scripts or commands and deactivate the environment when you are done.
 
 To activate the `PopInf` environment: \
@@ -33,26 +40,41 @@ To activate the `PopInf` environment: \
 To deactivate the `PopInf` environment: \
 `source deactivate PopInf`
 
-### Add additional programs to the environment
-To use GATK in the conda environment, you must register it. After activating the environment, type the following into the command line: \
+### Adding GATK to the PopInf environment
+To use GATK in the conda environment, you must download it from the Broad Institute and register it. After downloading the GATK v3.7 jar file, activate the PopInf environment, type the following into the command line: \
 `gatk-register <path and name of gatk jar file>`
 
-Please note that "`<path and name of gatk jar file>`" is the path and file name for the gatk.jar file. The jar file must be downloaded independently. See: https://bioconda.github.io/recipes/gatk/README.html
+Please note that "`<path and name of gatk jar file>`" is the path and file name for the GenomeAnalysisTK.jar file. The jar file must be downloaded independently. See: https://bioconda.github.io/recipes/gatk/README.html
+
+To download the GATK 3.7 jar file go to: https://software.broadinstitute.org/gatk/download/archive
+
+There, click the "GATK 2-3" tab. The different versions of GATK will appear to download. Click GenomeAnalysisTK-3.7-0-gcfedb67.tar.bz2 and unpack this file.
+`tar xvfj GenomeAnalysisTK-3.7-0-gcfedb67.tar.bz2`
+
+The jar file is called `GenomeAnalysisTK.jar`
 
 
 ## Step 2: Prepare the reference panel VCFs and sample information file
 See the readme file in the folder called "`Reference_Panel`".
 
-Please make sure the reference panel VCF is separated by chromosome and gzipped. The sample information text file we use is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_AdmxRm.txt`
+Please make sure the reference panel VCF is separated by chromosome and gzipped. The sample information text file we use as example is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_AdmxRm.txt`
+
+If you are running PopInf with the test data in this repository, the reference panel VCFs and sample information file are already prepared and added to the configuration file.
 
 
-## Step 3: Prepare the unknown samples VCFs and sample information file
+## Step 3: Download the reference genome used for mapping
+The 1000 genomes data was mapped to GRCh37. If you do not have this reference genome already, please follow the steps outlined in the folder called `Reference_Genome`. If you are using a different reference genome, Specify the full path and file name in the configuration file (step 5).
+
+
+## Step 4: Prepare the unknown samples VCFs and sample information file
 See the readme file in the folder called "`Unknown_Samples`".
 
-Please make sure the unknown samples VCF is separated by chromosome and gzipped. The sample information text file we use is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_Admx_samples.txt`
+Please make sure the unknown samples VCF is separated by chromosome and gzipped. The sample information text file we use as example is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_Admx_samples.txt`
+
+If you are running PopInf with the test data in this repository, the unknown samples VCFs and sample information file are already prepared and added to the configuration file.
 
 
-## Step 4: Edit the configuration file
+## Step 5: Edit the configuration file
 Associated with the Snakefile is a configuration file in json format. This file has 16 pieces of information needed to run the Snakefile. To run PopInf, go through all lines in the configuration file and make sure to change the content as specified.
 The config file is named `popInf.config.json` and is located in this folder. See below for details. We also provide an example our configuration file below:
 
@@ -71,10 +93,10 @@ The config file is named `popInf.config.json` and is located in this folder. See
   "_comment_autosomes": "This section of the .json file asks for information needed for the autosomes if they are to be analyzed",
   "vcf_ref_panel_path": "Reference_Panel/",
   "vcf_ref_panel_prefix": "chr",
-  "vcf_ref_panel_suffix": "_10000genomes_selected_individuals_SNPs_nomissing.dupsRemoved.thinned.vcf.gz",
+  "vcf_ref_panel_suffix": "_1000genomes_selected_individuals_SNPs_nomissing.dupsRemoved.thinned.vcf.gz",
   "vcf_unknown_set_path": "Unknown_Samples/",
   "vcf_unknown_set_prefix": "chr",
-  "vcf_unknown_set_suffix": "_10000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
+  "vcf_unknown_set_suffix": "_1000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
   "chromosome": ["1", "2", "3", "4", "5", "6", "7",
                  "8", "9", "10", "11", "12", "13", "14",
                  "15", "16", "17", "18", "19", "20", "21", "22"],
@@ -83,13 +105,15 @@ The config file is named `popInf.config.json` and is located in this folder. See
   "vcf_ref_panel_path_X": "Reference_Panel/",
   "vcf_ref_panel_file": "chrX_1000genomes_selected_individuals.dupsRemoved.thinned.vcf.gz",
   "vcf_unknown_set_path_X": "/scratch/amtarave/test_set_POPINF/1000genomes/",
-  "vcf_unknown_set_file": "chrX_10000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
+  "vcf_unknown_set_file": "chrX_1000genomes_admixed_samples.dupsRemoved.thinned.vcf.gz",
   "X_chr_coordinates": "X_chromosome_regions_XTR_hg19.bed"
 }
 ```
 After editing `popInf.config.json` make sure that this file has maintained proper json format. You can use The JSON Validator for example (https://jsonlint.com/).
 
-Below, there are details on what to add or change in the configuration file.
+If you are running PopInf with the test data in this repository, you should not have to change anything in `PopInf.config.json`. However, we suggests double checking prior to running PopInf.
+
+Below, are the details on what to add or change in the `PopInf.config.json`.
 
 ### Provide the reference and unknown panel sample information
 `"ref_panel_pop_info_path": ` Add the full path and file name of the sample information text file for the reference panel.
@@ -103,7 +127,7 @@ Below, there are details on what to add or change in the configuration file.
 `"ref_path": ` Add the full path to and name of the reference genome file.
 
 ### Specify the call rate threshold
-`"genotype_call_rate_threshold": ` Removes sites with a user specified call rate. For example, if you want to remove sites with any missing data (call rate of 100%) set `"genotype_call_rate_threshold": ` to `"1.0"`. If you don't want to implements a call rate threshold, set `"genotype_call_rate_threshold": ` to `"0"`.
+`"genotype_call_rate_threshold": ` Removes sites with a user specified call rate. For example, if you want to remove sites with any missing data (call rate of 100%) set `"genotype_call_rate_threshold": ` to `"1.0"`. We suggests leaving the call rate to .98 or higher, so that sites found in both the reference panel and unknown set overlap.
 
 ### Additional information to provide if analyzing the autosomes
 `"vcf_ref_panel_path": ` Add the full path to the reference panel VCF files that are separated by chromosome. Make sure the path has "/" at the end.
@@ -131,7 +155,7 @@ Below, there are details on what to add or change in the configuration file.
 
 `"X_chr_coordinates": ` Add the full path to and name of the file containing the X chromosome PAR and XTR coordinates. The coordinates are provided in the file named `X_chromosome_regions_XTR_hg19.bed` and this file is located in this folder.
 
-## Step 5: Run PopInf
+## Step 6: Run PopInf
 This step will provide instructions on how to run PopInf. With our server, we chose to use an sbatch script to run PopInf. This script is provided in this folder if your wish to use this. However, depending on your server, you might need to run PopInf differently. All the necessary scripts are provided in this folder.
 
 ### Edit the .sh script
@@ -169,6 +193,8 @@ sbatch snakemake_PopInf_slurm.sh X
 ```
 
 ## The results of running PopInf
-After submitting `snakemake_PopInf_slurm.sh` PopInf will run. PopInf will output PCA plots as well as an inferred population report for each automsome separately and all autosomes merged and the X chromosome. The PCA plots will provide a visual representation of how the unknown sample(s) compare(s) to the reference panel. For each unknown sample, the inferred population reports will provide distances to each reference population's centroid, and inferred ancestry based on how close the sample is to each population.
+After submitting `snakemake_PopInf_slurm.sh` PopInf will run. PopInf will output PCA plots as well as an inferred population report for each specified chromosome separately and all autosomes merged and the X chromosome. The PCA plots will provide a visual representation of how the unknown sample(s) compare(s) to the reference panel. For each unknown sample, the inferred population reports will provide distances to each reference population's centroid, and inferred ancestry based on how close the sample is to each population.
 
-We ran PopInf using 986 unrelated individuals from the 1000 Genomes consortium as our reference panel and 148 GTEx samples as our unknown panel. Our sample lists are provided in this folder, and our configuration file can be seen above. Additionally, we have provided the PCA plot and inferred population report that PopInf generated for the merged autosomes in this folder.
+The results for each specified autosome can be found: `autosomes/per_chr_results/`
+
+The results for the autosomes merged together can be found in this directory with the file names `autosomes_inferred_pop_report.pdf` and `autosomes_inferred_pop_report.txt`.
