@@ -23,33 +23,49 @@ First, you will have to install Anaconda or Miniconda. Please refer to Conda's d
 You can name your environment whatever you would like. We named this environment 'PopInf' and we will use this environment for all analyses.
 
 Create conda environment called `PopInf`: \
-`conda env create --name PopInf --file PopInfConda.txt`
+```
+conda env create --name PopInf --file PopInfConda.txt
+```
 
 The `PopInfConda.txt` is located in this folder and contains the programs needed to run PopInf.
 
 If the above does not work (i.e. differences in platforms), try the following: \
-`conda env create --name PopInf --file PopInf.yml`
+```
+conda env create --name PopInf --file PopInf.yml
+```
 
 `PopInf.yml` is also located in this folder
 
 You will need to activate the environment when running scripts or commands and deactivate the environment when you are done.
 
-To activate the `PopInf` environment: \
-`source activate PopInf`
+To activate the `PopInf` environment:
 
-To deactivate the `PopInf` environment: \
-`source deactivate PopInf`
+```
+source activate PopInf
+```
+
+To deactivate the `PopInf` environment:
+
+```
+source deactivate PopInf
+```
 
 ### Adding GATK to the PopInf environment
-To use GATK in the conda environment, you must download it from the Broad Institute and register it. After downloading the GATK v3.7 jar file, activate the PopInf environment, type the following into the command line: \
-`gatk-register <path and name of gatk jar file>`
+To use GATK in the conda environment, you must download it from the Broad Institute and register it. After downloading the GATK v3.7 jar file, activate the PopInf environment, type the following into the command line:
+
+```
+gatk-register <path and name of gatk jar file>
+```
 
 Please note that "`<path and name of gatk jar file>`" is the path and file name for the GenomeAnalysisTK.jar file. The jar file must be downloaded independently. See: https://bioconda.github.io/recipes/gatk/README.html
 
 To download the GATK 3.7 jar file go to: https://software.broadinstitute.org/gatk/download/archive
 
 There, click the "GATK 2-3" tab. The different versions of GATK will appear to download. Click GenomeAnalysisTK-3.7-0-gcfedb67.tar.bz2 and unpack this file.
-`tar xvfj GenomeAnalysisTK-3.7-0-gcfedb67.tar.bz2`
+
+```
+tar xvfj GenomeAnalysisTK-3.7-0-gcfedb67.tar.bz2
+```
 
 The jar file is called `GenomeAnalysisTK.jar`
 
@@ -63,7 +79,7 @@ If you are running PopInf with the test data in this repository, the reference p
 
 
 ## Step 3: Download the reference genome used for mapping
-The 1000 genomes data was mapped to GRCh37. If you do not have this reference genome already, please follow the steps outlined in the folder called `Reference_Genome`. If you are using a different reference genome, Specify the full path and file name in the configuration file (step 5).
+The 1000 genomes data was mapped to GRCh37. If you do not have this reference genome already, please follow the steps outlined in the folder called `Reference_Genome`. If you are using a different reference genome, Specify the full path and file name in the configuration file (Step 5).
 
 
 ## Step 4: Prepare the unknown samples VCFs and sample information file
@@ -71,7 +87,7 @@ See the readme file in the folder called "`Unknown_Samples`".
 
 Please make sure the unknown samples VCF is separated by chromosome and gzipped. The sample information text file we use as example is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_Admx_samples.txt`
 
-If you are running PopInf with the test data in this repository, the unknown samples VCFs and sample information file are already prepared and added to the configuration file.
+If you are running PopInf with the test data in this repository, the unknown samples VCFs and sample information file are already prepared and added to the configuration file (Step 5).
 
 
 ## Step 5: Edit the configuration file
@@ -162,19 +178,27 @@ This step will provide instructions on how to run PopInf. With our server, we ch
 Before running the sbatch script, some necessary edits are needed. These edits are specified both at the top of the script and here:
 
 #### 1. Path to the location of the Snakefile and corresponding scripts (Line 25)
-`SPATH=/full/path/to/PopInf/directory/`
+```
+SPATH=/full/path/to/PopInf/directory/
+```
 
 #### 2. Name of the environment you created (Line 27)
-`ENV=PopInf`
+```
+ENV=PopInf
+```
 
 #### 3. Email you want the notifications to be sent to. If running on a cluster. This is the email address you wish to send slurm logs to (Line 30)
-`EMAIL=youremail@email.com`
+```EMAIL=youremail@email.com
+```
 
 #### 4. The path to and file name of the reference panel samples list (Line 32)
-`POPFILEREF=/full/path/to/reference_panel/Sample_Information/file.txt`
+```POPFILEREF=/full/path/to/reference_panel/Sample_Information/file.txt
+```
 
 #### 5. The path to and file name of the unknown panel samples list (Line 34)
-`POPFILEUNK=/full/path/to/unknown_sets/Sample_Information/file.txt`
+```
+POPFILEUNK=/full/path/to/unknown_sets/Sample_Information/file.txt
+```
 
 NOTE: If you are not running this shell script on a cluster, remove lines 2-7 and replace the snakemake command on line 65 with just `snakemake`
 
