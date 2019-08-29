@@ -9,14 +9,14 @@ configfile: "PopInf.config.json"
 if config["Autosomes_Yes_or_No"]=="Y":
 	rule all:
 		input:
-			expand("autosomes/ref_set/chr{chrm}_reference_panel_set_SNPs.recode.vcf", chrm=config["chromosome"]),
-			expand("autosomes/unk_set/chr{chrm}_unkown_set_SNPs.recode.vcf", chrm=config["chromosome"]),
-			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge.vcf", chrm=config["chromosome"]),
-			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing.recode.vcf", chrm=config["chromosome"]),
-			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.map", chrm=config["chromosome"]),
-			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.ped", chrm=config["chromosome"]),
-			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.in", chrm=config["chromosome"]),
-			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.out", chrm=config["chromosome"]),
+			#expand("autosomes/ref_set/chr{chrm}_reference_panel_set_SNPs.recode.vcf", chrm=config["chromosome"]),
+			#expand("autosomes/unk_set/chr{chrm}_unkown_set_SNPs.recode.vcf", chrm=config["chromosome"]),
+			#expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge.vcf", chrm=config["chromosome"]),
+			#expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing.recode.vcf", chrm=config["chromosome"]),
+			#expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.map", chrm=config["chromosome"]),
+			#xpand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink.ped", chrm=config["chromosome"]),
+			#expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.in", chrm=config["chromosome"]),
+			#expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.prune.out", chrm=config["chromosome"]),
 			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.map", chrm=config["chromosome"]),
 			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune.ped", chrm=config["chromosome"]),
 			expand("autosomes/merge/chr{chrm}_reference_panel_unknown_set_SNPs_merge_no_missing_plink_LDprune_editColumn6.ped", chrm=config["chromosome"]),
