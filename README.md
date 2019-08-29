@@ -4,12 +4,12 @@ PopInf is a method to infer the major population (or populations) ancestry of a 
 # Running PopInf
 Below are steps for running PopInf. PopInf is incorporated into the workflow system snakemake. All necessary files and scripts are in this directory. There are instructions on preparing the reference panel in a folder called "`Reference_Panel`". There are also instructions on preparing the unknown samples in a folder called "`Unknown_Samples`".
 
-We have provided sample data sets to run PopInf. They are subsetted data from 1000 genomes phase 3. The reference panel VCFs can be found in the folder called `Reference_Panel/` and the unknown (in this example, they are just admixed individuals) samples can be found in the folder called `Unknown_Samples/`.
+We have provided sample data sets to run PopInf. They are subsetted data from 1000 genomes phase 3. The reference panel VCFs can be found in the folder called `Reference_Panel/` and the unknown (in this example, they are a set of admixed individuals from 1000 genomes) samples can be found in the folder called `Unknown_Samples/`.
 
 ## What you need to run PopInf
  1. Variants for a reference panel in VCF file format separated by chromosome. See `Reference_Panel/`
  2. Variants for sample(s) of individuals with unknown or self-reported ancestry in VCF file format separated by chromosome. See `Unknown_Samples/`
- 3. Sample information file for the reference panel. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual. Our example for this file is provided in here: `Sample_Information/ThousandGenomesSamples_AdmxRm.txt`.
+ 3. Sample information file for the reference panel. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual. Our example for this file is provided here: `Sample_Information/ThousandGenomesSamples_AdmxRm.txt`.
  4. Sample information file for the unknown samples. This file must contain 3 tab-delimited columns: 1) the individual's sample name, and 2) sex information (i.e. male, female, unknown) and 3) population information for the corresponding individual (this column can be labeled "unknown" for this file). Our example for this file is provided here: `Sample_Information/ThousandGenomesSamples_Admx_samples.txt`.
  5. Reference Genome file (.fa) used for mapping variants. Make sure there are accompanying index (.fai) and dictionary (.dict) files. See folder `Reference_Genome/` for more information.
 
@@ -22,14 +22,14 @@ First, you will have to install Anaconda or Miniconda. Please refer to Conda's d
 ### Create the environment
 You can name your environment whatever you would like. We named this environment 'PopInf' and we will use this environment for all analyses.
 
-Create conda environment called `PopInf`: \
+Create conda environment called `PopInf`:
 ```
 conda env create --name PopInf --file PopInfConda.txt
 ```
 
 The `PopInfConda.txt` is located in this folder and contains the programs needed to run PopInf.
 
-If the above does not work (i.e. differences in platforms), try the following: \
+If the above does not work (i.e. differences in platforms), try the following:
 ```
 conda env create --name PopInf --file PopInf.yml
 ```
@@ -51,7 +51,7 @@ source deactivate PopInf
 ```
 
 ### Adding GATK to the PopInf environment
-To use GATK in the conda environment, you must download it from the Broad Institute and register it. After downloading the GATK v3.7 jar file, activate the PopInf environment, type the following into the command line:
+To use GATK in the conda environment, you must download it from the Broad Institute and register it. After downloading the GATK v3.7 jar file, activate the PopInf environment, and type the following into the command line:
 
 ```
 gatk-register <path and name of gatk jar file>
@@ -71,23 +71,23 @@ The jar file is called `GenomeAnalysisTK.jar`
 
 
 ## Step 2: Prepare the reference panel VCFs and sample information file
-See the readme file in the folder called "`Reference_Panel`".
+See the readme file in the folder called `Reference_Panel/` for more information.
 
-Please make sure the reference panel VCF is separated by chromosome and gzipped. The sample information text file we use as example is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_AdmxRm.txt`
+Please make sure the reference panel VCF is separated by chromosome and gzipped. The sample information text file we use as an example is located in `Sample_Information/` and the file name is `ThousandGenomesSamples_AdmxRm.txt`
 
-If you are running PopInf with the test data in this repository, the reference panel VCFs and sample information file are already prepared and added to the configuration file.
+If you are running PopInf with the test data in this repository, the reference panel VCFs and sample information file are already prepared and specified in the configuration file.
 
 
 ## Step 3: Download the reference genome used for mapping
-The 1000 genomes data was mapped to GRCh37. If you do not have this reference genome already, please follow the steps outlined in the folder called `Reference_Genome`. If you are using a different reference genome, Specify the full path and file name in the configuration file (Step 5).
+The 1000 genomes data was mapped to GRCh37. If you do not have this reference genome already, please follow the steps outlined in the folder called `Reference_Genome/`. If you are using a different reference genome, specify the full path and file name in the configuration file (Step 5).
 
 
 ## Step 4: Prepare the unknown samples VCFs and sample information file
-See the readme file in the folder called "`Unknown_Samples`".
+See the readme file in the folder called `Unknown_Samples/` for more information.
 
-Please make sure the unknown samples VCF is separated by chromosome and gzipped. The sample information text file we use as example is located: `Sample_Information/` and the file name is `ThousandGenomesSamples_Admx_samples.txt`
+Please make sure the unknown samples VCF is separated by chromosome and gzipped. The sample information text file we use as example is located in `Sample_Information/` and the file name is `ThousandGenomesSamples_Admx_samples.txt`
 
-If you are running PopInf with the test data in this repository, the unknown samples VCFs and sample information file are already prepared and added to the configuration file (Step 5).
+If you are running PopInf with the test data in this repository, the unknown samples VCFs and sample information file are already prepared and specified in the configuration file (Step 5).
 
 
 ## Step 5: Edit the configuration file
