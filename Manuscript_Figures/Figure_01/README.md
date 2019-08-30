@@ -4,6 +4,7 @@ This readme contains the script and input files to generate figure 1 from our ma
 
 To re-create figure 1, do the following
 ```
+
 # Activate the PopInf cond environment if not already activated
 source activate PopInf
 
