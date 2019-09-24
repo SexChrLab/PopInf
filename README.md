@@ -212,7 +212,7 @@ If you are only analyzing chromosomes 1,2,5,7 your chromosome list variable woul
 CHRLST=1,2,5,7
 ```
 
-***IMPORTANT NOTE:*** If you run PopInf on all the autosomes (chromosomes 1-22 for humans) and resultantly there are no variants on one or more of the chromosomes, this needs to be reflected in this chromosome list in `snakemake_PopInf_slurm.sh`. So for example, if you initially specified running PopInf on chromosomes 1-22 and then there are no variants on chromosome 8, the merge step of PopInf will fail. You will have to re-run PopInf but specify the chromosomes to merge in `snakemake_PopInf_slurm.sh`
+***IMPORTANT NOTE:*** If you run PopInf on all the autosomes (chromosomes 1-22 for humans) and resultantly there are no variants on one or more of the chromosomes, this needs to be reflected in this chromosome list in `snakemake_PopInf_slurm.sh`. So for example, if you initially specified running PopInf on chromosomes 1-22 and then there are no variants on chromosome 8, the merge step of PopInf will fail. You will have to re-run PopInf but specify the chromosomes to merge in `snakemake_PopInf_slurm.sh` and in `PopInf.config.json`.
 
 ADDITIONAL NOTE: If you are not running this shell script on a cluster, remove lines 2-7 and replace the snakemake command on line 69 with just `snakemake`
 
