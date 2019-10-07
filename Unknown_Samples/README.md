@@ -11,7 +11,7 @@ You will need the following to prepare the unknown panel:
 If your VCF files for the unknown panel are not already separated by chromosome, you can use the following commands to separate them. PopInf will only accept VCF files separated by chromosome.
 
 ```
-for i in {1..21}
+for i in {1..22}
 do
 	vcftools --gzvcf /path/to/unknown_panel_VCF.vcf.gz --chr ${i} --recode --stdout | bgzip -c > /path/to/chr${i}_unknown_panel_VCF.vcf.gz
 	tabix -p vcf /path/to/chr${i}_unknown_panel_VCF.vcf.gz
