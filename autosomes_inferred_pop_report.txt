@@ -1,31 +1,31 @@
-Sample	Confident Inferred Pop: 1SD	Confident Inferred Pop: 2SD	Confident Inferred Pop: 3SD	Less Restricted Inferred Pop	Distance to cluster Africa	Distance to cluster East_Asia	Distance to cluster Europe	Distance to cluster South_Asia
-HG00551	-	-	-	Europe	0.07335	0.07870	0.00996	0.01712
-HG00553	-	-	-	South_Asia	0.06158	0.06992	0.02324	0.01506
-HG00637	-	-	-	South_Asia	0.06514	0.07351	0.01861	0.01540
-HG00640	-	-	Europe	Europe	0.07443	0.07940	0.00887	0.01763
-HG00731	-	Europe	Europe	Europe	0.07726	0.08285	0.00513	0.02084
-HG00734	-	-	South_Asia	South_Asia	0.07014	0.07412	0.01480	0.01334
-HG00736	-	Europe	Europe	Europe	0.07732	0.08410	0.00468	0.02213
-HG01052	-	-	-	South_Asia	0.06231	0.07230	0.02145	0.01628
-HG01058	-	-	South_Asia	South_Asia	0.06928	0.07511	0.01473	0.01472
-HG01077	-	-	-	South_Asia	0.06231	0.07155	0.02181	0.01568
-NA19648	-	Europe	Europe	Europe	0.07990	0.08615	0.00209	0.02405
-NA19651	-	South_Asia	South_Asia	South_Asia	0.07212	0.07113	0.01625	0.00953
-NA19654	-	South_Asia	South_Asia	South_Asia	0.06870	0.05336	0.03381	0.00959
-NA19658	-	-	South_Asia	South_Asia	0.07518	0.07444	0.01249	0.01237
-NA19661	-	South_Asia	South_Asia	South_Asia	0.07070	0.06154	0.02549	0.00259
-NA19663	-	South_Asia	South_Asia	South_Asia	0.06888	0.05404	0.03310	0.00890
-NA19669	-	South_Asia	South_Asia	South_Asia	0.07369	0.06626	0.02052	0.00417
-NA19676	-	South_Asia	South_Asia	South_Asia	0.07314	0.06927	0.01769	0.00734
-NA19679	-	Europe	Europe	Europe	0.07903	0.08550	0.00293	0.02343
-NA19700	-	-	-	Africa	0.01520	0.08308	0.06685	0.05958
-NA19703	-	-	-	Africa	0.01523	0.08190	0.06673	0.05903
-NA19707	-	-	-	Africa	0.02056	0.08031	0.06140	0.05411
-NA19711	-	-	Africa	Africa	0.00945	0.08285	0.07255	0.06406
-NA19792	-	South_Asia	South_Asia	South_Asia	0.07311	0.06825	0.01866	0.00630
-NA19818	-	-	-	Africa-South_Asia	0.02645	0.07772	0.05552	0.04825
-NA19834	-	-	-	Africa	0.01966	0.08096	0.06231	0.05512
-NA19914	-	-	-	Africa	0.02385	0.07976	0.05811	0.05124
-NA20282	-	-	-	Africa	0.02200	0.08002	0.05996	0.05284
-NA20287	-	-	-	Africa	0.01123	0.08246	0.07073	0.06245
-NA20289	-	-	-	Africa	0.01658	0.08103	0.06537	0.05760
+Sample	Confident Inferred Population: 1SD	Confident Inferred Population: 2SD	Confident Inferred Population: 3SD	Admixed (Y/N)	Admixed Populations	Uncertain (Y/N)	Uncertain - Closest Population	Plot Info	Distance to cluster Africa	Distance to cluster East_Asia	Distance to cluster Europe	Distance to cluster South_Asia
+HG00551	-	-	-	Y	Europe-South_Asia	N	-	Admixed	0.07335	0.07870	0.00996	0.01712
+HG00553	-	-	-	N	-	Y	South_Asia	Uncertain (South_Asia)	0.06158	0.06992	0.02324	0.01506
+HG00637	-	-	-	Y	Europe-South_Asia	N	-	Admixed	0.06514	0.07351	0.01861	0.01540
+HG00640	-	-	Europe	N	-	N	-	Europe (3 sd)	0.07443	0.07940	0.00887	0.01763
+HG00731	-	Europe	Europe	N	-	N	-	Europe (2 sd)	0.07726	0.08285	0.00513	0.02084
+HG00734	-	-	South_Asia	N	-	N	-	South_Asia (3 sd)	0.07014	0.07412	0.01480	0.01334
+HG00736	-	Europe	Europe	N	-	N	-	Europe (2 sd)	0.07732	0.08410	0.00468	0.02213
+HG01052	-	-	-	Y	Europe-South_Asia	N	-	Admixed	0.06231	0.07230	0.02145	0.01628
+HG01058	-	-	South_Asia	N	-	N	-	South_Asia (3 sd)	0.06928	0.07511	0.01473	0.01472
+HG01077	-	-	-	Y	Europe-South_Asia	N	-	Admixed	0.06231	0.07155	0.02181	0.01568
+NA19648	Europe	Europe	Europe	N	-	N	-	Europe (1 sd)	0.07990	0.08615	0.00209	0.02405
+NA19651	-	South_Asia	South_Asia	N	-	N	-	South_Asia (2 sd)	0.07212	0.07113	0.01625	0.00953
+NA19654	-	South_Asia	South_Asia	N	-	N	-	South_Asia (2 sd)	0.06870	0.05336	0.03381	0.00959
+NA19658	-	-	South_Asia	N	-	N	-	South_Asia (3 sd)	0.07518	0.07444	0.01249	0.01237
+NA19661	South_Asia	South_Asia	South_Asia	N	-	N	-	South_Asia (1 sd)	0.07070	0.06154	0.02549	0.00259
+NA19663	-	South_Asia	South_Asia	N	-	N	-	South_Asia (2 sd)	0.06888	0.05404	0.03310	0.00890
+NA19669	South_Asia	South_Asia	South_Asia	N	-	N	-	South_Asia (1 sd)	0.07369	0.06626	0.02052	0.00417
+NA19676	-	South_Asia	South_Asia	N	-	N	-	South_Asia (2 sd)	0.07314	0.06927	0.01769	0.00734
+NA19679	Europe	Europe	Europe	N	-	N	-	Europe (1 sd)	0.07903	0.08550	0.00293	0.02343
+NA19700	-	-	-	N	-	Y	Africa	Uncertain (Africa)	0.01520	0.08308	0.06685	0.05958
+NA19703	-	-	-	N	-	Y	Africa	Uncertain (Africa)	0.01523	0.08190	0.06673	0.05903
+NA19707	-	-	-	Y	Africa-South_Asia	N	-	Admixed	0.02056	0.08031	0.06140	0.05411
+NA19711	-	-	Africa	N	-	N	-	Africa (3 sd)	0.00945	0.08285	0.07255	0.06406
+NA19792	-	South_Asia	South_Asia	N	-	N	-	South_Asia (2 sd)	0.07311	0.06825	0.01866	0.00630
+NA19818	-	-	-	Y	Africa-South_Asia	N	-	Admixed	0.02645	0.07772	0.05552	0.04825
+NA19834	-	-	-	Y	Africa-South_Asia	N	-	Admixed	0.01966	0.08096	0.06231	0.05512
+NA19914	-	-	-	Y	Africa-South_Asia	N	-	Admixed	0.02385	0.07976	0.05811	0.05124
+NA20282	-	-	-	Y	Africa-South_Asia	N	-	Admixed	0.02200	0.08002	0.05996	0.05284
+NA20287	-	-	-	N	-	Y	Africa	Uncertain (Africa)	0.01123	0.08246	0.07073	0.06245
+NA20289	-	-	-	N	-	Y	Africa	Uncertain (Africa)	0.01658	0.08103	0.06537	0.05760
