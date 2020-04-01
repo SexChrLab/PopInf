@@ -15,6 +15,21 @@ library(ggpubr)
 library(rlist)
 
 
+### VARIABLES ###
+# Path to inferred population report files. Will have 2 of these
+pathtoresultsGTEx <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/Main_analyses/For_Manuscript/01_GTEx/Results/Reports"
+pathtoresultsTCGA <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/Main_analyses/For_Manuscript/01_TCGA/Results/Reports"
+# Path to reference panel sample list. This is the same as input for PopInf
+pathtorefsampleinfo <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/PopInf-master/Manuscript_Figures/Figure_01/INPUTS/ThousandGenomesSamples_AdmxRm_new_withdashes.txt"
+# This is for the list of all the chromosomes that you intend to add to the 
+# heatmap
+chrstoanalyze <- c("All", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+                   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", 
+                   "20", "21", "22", "X")
+# File name for heat map with directory info
+pfdfilename <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/PopInf-master/Manuscript_Figures/Figure_02/Fig_02.pdf"
+
+
 ### FUNCTIONS ###
 # 1. Get matrix for plotting. 
 getmatforplot <- function(pathtoresults, chrstoanalyze) {
@@ -188,21 +203,6 @@ getmatforplotvariablenumbers <- function(fullnummat, fullpopmat) {
   
   return(varmatnumbers)
 }
-
-
-### VARIABLES ###
-# Path to inferred population report files. Will have 2 of these
-pathtoresultsGTEx <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/Main_analyses/For_Manuscript/01_GTEx/Results/Reports"
-pathtoresultsTCGA <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/Main_analyses/For_Manuscript/01_TCGA/Results/Reports"
-# Path to reference panel sample list. This is the same as input for PopInf
-pathtorefsampleinfo <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/PopInf-master/Manuscript_Figures/Figure_01/INPUTS/ThousandGenomesSamples_AdmxRm_new_withdashes.txt"
-# This is for the list of all the chromosomes that you intend to add to the 
-# heatmap
-chrstoanalyze <- c("All", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
-                   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", 
-                   "20", "21", "22", "X")
-# File name for heat map with directory info
-pfdfilename <- "/Users/angelataravella/Dropbox (ASU)/00_Lab_Research_Projects/PCA_tutorial_github/PopInf-master/Manuscript_Figures/Figure_02/Fig_02.pdf"
 
 
 ## SET UP COLOR KEY ##
