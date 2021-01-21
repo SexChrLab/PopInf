@@ -17,7 +17,7 @@ rule subset_1000genomes:
     output:
         "chr{chrm}_reference_panel.vcf.gz"
     shell:"""
-        vcftools --gzvcf {input.gzvcf} --keep {input.inds} --stdout | gzip -c > {output}
+        vcftools --gzvcf {input.gzvcf} --keep {input.inds} --stdout | bgzip -c > {output}
 
 	"""
 
